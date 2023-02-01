@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moduel Test</title>
+    <style>
+        *{
+            margin: 2px;
+            
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .gallery{
+            display: flex;
+            justify-content: center;
+            
+
+            /* display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px , 1fr)); */
+            border: 2px solid black;
+        }
+
+        
+
+        img {
+            margin: 10px;
+            border: 5px solid #555;
+            width: 200px;
+            height: 200px;
+        }
+
+        .selected {
+         border: 5px solid rgb(0, 195, 255);
+        }
+
+        .signup{
+            display:none;
+        }
+
+        .error{
+            color: red;
+        }
+
+        .diceimg{
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+    
+        <div class="gallery">
+            <img class="img1" src="./img1.png" alt="">
+            <img class="img2" src="./image 2.png" alt="">
+            <img class="img3" src="./img5.jpg" alt="">
+            <img class="img4" src="./img4.jpg" alt=""> 
+        </div>
+
+        
+        <p class="error"></p>
+
+    <form class="signup">
+       <fieldset>
+        <legend>Signup Form</legend>
+        <label for="name">Full Name</label> <br>
+        <input type="text" id="name" name="name" placeholder="Enter your full name"> <br><br>
+
+        <label for="username">User Name</label> <br>
+        <input type="text" id="username" name="username" placeholder="Enter your User Name"> <br><br>
+
+        <label for="email">Email</label> <br>
+        <input type="text" id="email" name="email" placeholder="Enter your Email"> <br><br>
+
+        <input type="submit">
+        
+       </fieldset> 
+    </form>
+    
+    <div class="diceimg">
+        <p> click the image to roll the dice</p><br>
+        <button class="diceRollButton" id="0"><img src="./img6.jpg" style="width: 200px;"></button>
+     Score: <span> </span>
+      <br> <br>
+    
+    </div>
+        <script>
+            let images = document.querySelector('img')
+            let image1 = document.querySelector('.img1')
+            let Signup_Form = document.querySelector('.signup')
+            image1.addEventListener("click", formsubmition)
+
+            let input_name = document.querySelector('#name');
+            let input_Username = document.querySelector('#username');
+            let input_email = document.querySelector('#email');
+            let error = document.querySelector('.error');
+            Signup_Form.addEventListener('submit', validateForm);
+
+
+
+            function formsubmition(e){
+                Signup_Form.style.display = "inline"
+                image1.classList.add("selected")
+            }
+
+            let arr = []   //reating emty array
+            let id = 1  //id will start from 1
+            
+            function validateForm(e){
+            e.preventDefault();
+            let name = input_name.value;
+            let username = input_Username.value;
+            let email = input_email.value;
+
+            //name validation
+            
+
+            
+            if(checkNumberOfWords(name) <2){
+                error.innerHTML = 'Name Minimum 2 words required'
+                
+            }
+
+            else if(username.length < 3){
+                error.innerHTML = 'Username Minimum 3 Character is required'
+            }
+
+            
+
+            else if(email.indexOf('@') == -1){
+                error.innerHTML = 'Email must contain @'
+            }
+
+            else{
+                error.innerHTML = 'Form sumbmit sucssfully'
+
+                let obj = {name, username};
+                arr.push(obj);
+                console.log(arr);
+
+                input_name.value = '';
+                input_Username.value = '';
+                input_email.value = '';
+
+                //local storage
+                localStorage.setItem("data", JSON.stringify(arr))
+
+                //Naigate to login Page
+                //window.location.href = "/login.html"
+            }
+
+        }   
+
+        function checkNumberOfWords(name){
+            name = name.trim();
+            let arr = name.split(' ');
+            return arr.length
+        }
+
+
+        //2nd Image
+        
+        let image2 = document.querySelector('.img2');
+        image2.addEventListener('click', userData )
+        
+
+        function userData(e){
+            image2.classList.add("selected");
+            Signup_Form.style.display = "none"
+            image1.classList.remove("selected")
+            error.innerHTML = ''
+            let table = document.createElement("table")
+            for(let t of arr){
+                tr = table.insertRow(-1)
+                    for(let key in t){
+                        let td = tr.insertCell(-1)
+                         td.innerHTML = `${key} :${t[key]}`   
+                    }
+            } 
+            document.body.append(table)  
+        }
+
+        
+        //3rd Image
+
+        let image3 = document.querySelector('.img3')
+        image3.addEventListener('click', dice);
+        
+        function dice(e){
+            image3.classList.add("selected");
+            Signup_Form.style.display = "none"
+            image2.classList.remove("selected")
+            image1.classList.remove("selected")
+            diceDiv.style.display = "inline"
+        }
+
+        let diceDiv = document.querySelector('.diceimg');//div access
+        let btns = document.getElementsByClassName("diceRollButton")
+        let scores = document.getElementsByTagName("span")
+        
+
+        for(let i = 0; i<=btns.length-1; i++ ){
+   btns[i].addEventListener("click", ()=>{rollDice(btns[i].id)})
+}
+let sum = 0;
+
+function rollDice(btn_id){
+
+//   btns[btn_id].disabled = true
+   
+   let  arr= ["1", "2", "3", "4", "5", "6"]
+  
+   let randomIndex = Math.floor(Math.random() * 6) // 0 - 5 only integers
+   let randomDice = arr[randomIndex]
+   // console.log(randomDice)
+   scores[btn_id].innerText = randomDice
+   
+}
+        
+       
+       
+       
+       
+       
+       
+
+        
+        
+        
+        
+
+        </script>
+    
+</body>
+</html>
