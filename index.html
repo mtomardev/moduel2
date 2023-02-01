@@ -47,6 +47,10 @@
             display: none;
         }
 
+        .cong{
+            display: none;
+        }
+
     </style>
 </head>
 <body>
@@ -83,8 +87,12 @@
         <button class="diceRollButton" id="0"><img src="./img6.jpg" style="width: 200px;"></button>
      Score: <span> </span>
       <br> <br>
-    
     </div>
+
+    <img src="./congratulations.avif" class="cong" style="width: 20%; height: 20%;"> 
+
+
+
         <script>
             let images = document.querySelector('img')
             let image1 = document.querySelector('.img1')
@@ -217,7 +225,42 @@ function rollDice(btn_id){
    scores[btn_id].innerText = randomDice
    
 }
+
+
+//image4
+
+        let image4 = document.querySelector('.img4')
+        image4.addEventListener('click', coupon);
         
+        let congratut = document.querySelector('.cong')
+
+        function coupon(e){
+            image4.classList.add("selected");
+            Signup_Form.style.display = "none"
+            image3.classList.remove("selected")
+            image2.classList.remove("selected")
+            image1.classList.remove("selected")
+            diceDiv.style.display = "none"
+            let coupon = "";
+            let characters = "0@12A345#cH67Ge89";    
+            for (let i = 0; i < 12; i++) {
+                coupon += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+
+            let heading = document.createElement('h1')
+            heading.innerHTML = "Coupon Code : "+ coupon;
+            document.body.append(heading)
+
+            congratut.style.display = "inline"
+
+            // let congrat = document.createElement('img')
+            // congrat.src = "congratulations.avif";
+            // document.body.append(congrat)
+
+        }
+        
+        
+
        
        
        
