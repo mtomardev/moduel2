@@ -174,6 +174,7 @@
         
 
         function userData(e){
+            image1.removeEventListener("click", formsubmition)
             image2.classList.add("selected");
             Signup_Form.style.display = "none"
             image1.classList.remove("selected")
@@ -196,6 +197,8 @@
         image3.addEventListener('click', dice);
         
         function dice(e){
+            image1.removeEventListener("click", formsubmition)
+            image2.removeEventListener('click', userData )
             image3.classList.add("selected");
             Signup_Form.style.display = "none"
             image2.classList.remove("selected")
@@ -223,6 +226,9 @@ function rollDice(btn_id){
    let randomDice = arr[randomIndex]
    // console.log(randomDice)
    scores[btn_id].innerText = randomDice
+
+
+   
    
 }
 
@@ -233,15 +239,25 @@ function rollDice(btn_id){
         image4.addEventListener('click', coupon);
         
         let congratut = document.querySelector('.cong')
-
+        let image4Count = 0;
         function coupon(e){
+            image4Count++;
+            console.log(image4Count)
+            image1.removeEventListener("click", formsubmition)
+            image2.removeEventListener('click', userData )
+            image3.removeEventListener('click', dice);
             image4.classList.add("selected");
             Signup_Form.style.display = "none"
             image3.classList.remove("selected")
             image2.classList.remove("selected")
             image1.classList.remove("selected")
             diceDiv.style.display = "none"
-            let coupon = "";
+            
+            // let congrat = document.createElement('img')
+            // congrat.src = "congratulations.avif";
+            // document.body .append(congrat)
+            if(image4Count == 1){
+                let coupon = "";
             let characters = "0@12A345#cH67Ge89";    
             for (let i = 0; i < 12; i++) {
                 coupon += characters.charAt(Math.floor(Math.random() * characters.length));
@@ -253,11 +269,14 @@ function rollDice(btn_id){
 
             congratut.style.display = "inline"
 
-            // let congrat = document.createElement('img')
-            // congrat.src = "congratulations.avif";
-            // document.body.append(congrat)
+                
+            }
+            else{
+                image4.removeEventListener('click', coupon);
+            }
 
         }
+
         
         
 
